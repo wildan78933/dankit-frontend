@@ -16,7 +16,7 @@ defineProps({
           <img
             :alt="titleItems"
             class="block w-full h-auto"
-            :src="'/src/assets/img/' + imageItems"
+            :src="'@/assets/img/' + imageItems"
           />
         </div>
       </RouterLink>
