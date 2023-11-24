@@ -14,7 +14,7 @@ defineProps({
       <RouterLink to="details.html">
         <div class="m-4 overflow-hidden rounded-xl">
           <img
-            alt="titleItems"
+            :alt="titleItems"
             class="block w-full h-auto"
             :src="'/src/assets/img/' + imageItems"
           />
