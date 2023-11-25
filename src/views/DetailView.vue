@@ -1,30 +1,54 @@
 <script setup>
 import Gallery from "@/components/detail/Gallery.vue";
-import { onMounted } from "vue";
-import { RouterLink } from "vue-router";
+import axios from "axios";
+import { ref, onMounted, computed } from "vue";
+import { RouterLink, useRoute } from "vue-router";
+
+const route = useRoute();
+const item = ref(false);
+
+async function getProduct() {
+  try {
+    const response = await axios.get(
+      "https://zullkit-backend.belajarkoding.com/api/products?id=" +
+        route.params.id
+    );
+    item.value = response.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const features = computed(() => {
+  return item.value.features.split(",");
+});
 
 onMounted(() => {
   window.scrollTo(0, 0);
+  getProduct();
 });
 </script>
 
 <template>
-  <main>
+  <main v-if="item">
     <div class="container p-2 mx-auto my-10 max-w-7xl">
       <div class="flex flex-row flex-wrap py-4">
         <main role="main" class="w-full px-4 pt-1 sm:w-2/3 md:w-2/3">
           <h1
             class="mb-2 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl md:text-4xl"
           >
-            RoboCrypto UI Kit
+            {{ item.name }}
           </h1>
-          <p class="text-gray-500">Build your next coin startup</p>
+          <p class="text-gray-500">{{ item.subtitle }}</p>
           <!-- Gallery -->
-          <Gallery />
+          <Gallery
+            :defaultImage="item.thumbnails"
+            :galleries="item.galleries"
+          />
           <section class="" id="orders">
             <h1 class="mt-8 mb-3 text-lg font-semibold">About</h1>
-            <div class="text-gray-500">
-              <p class="pb-4">
+            <div class="text-gray-500" v-html="item.description"></div>
+            <!-- <p class="pb-4">
                 Sportly App UI Kit will help your Sport, Fitness, and Workout
                 App products or services. Came with modern and sporty style, you
                 can easily edit and customize all elements with components that
@@ -37,14 +61,13 @@ onMounted(() => {
                 - Workout App <br />
                 - Trainer & Tracker App <br />
                 - And many more <br />
-              </p>
-            </div>
+              </p> -->
           </section>
         </main>
         <aside class="w-full px-4 sm:w-1/3 md:w-1/3">
           <div class="sticky top-0 w-full pt-4 md:mt-24">
             <div class="p-6 border rounded-2xl">
-              <div class="mb-4">
+              <div class="mb-4" v-if="item.is_figma === 1">
                 <div class="flex mb-2">
                   <div>
                     <img
@@ -59,7 +82,7 @@ onMounted(() => {
                   </div>
                 </div>
               </div>
-              <div class="mb-4">
+              <div class="mb-4" v-if="item.is_sketch === 1">
                 <div class="flex mb-2">
                   <div>
                     <img
@@ -76,9 +99,9 @@ onMounted(() => {
               </div>
               <div>
                 <h1 class="mt-5 mb-3 font-semibold text-md">Great Features</h1>
-                <ul class="mb-6 text-gray-500">
-                  <li class="mb-2">
-                    Customizable layers
+                <ul class="mb-6 text-gray-500" v-if="item">
+                  <li class="mb-2" v-for="feature in features">
+                    {{ feature }}
                     <img
                       src="@/assets/img/icon-check.png"
                       class="float-right w-5 mt-1"
