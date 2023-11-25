@@ -2,6 +2,7 @@
 import Logo from "./Logo.vue";
 import NavigationLink from "./NavigationLinks.vue";
 import UserInfo from "./UserInfo.vue";
+import AuthButton from "./AuthButton.vue";
 </script>
 
 <template>
@@ -12,7 +13,8 @@ import UserInfo from "./UserInfo.vue";
       class="container flex flex-wrap items-center justify-between mx-auto my-2"
     >
       <Logo />
-      <UserInfo />
+      <!-- <UserInfo /> -->
+      <AuthButton />
       <NavigationLink />
     </div>
   </nav>
