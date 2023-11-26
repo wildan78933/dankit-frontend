@@ -1,6 +1,30 @@
 <script setup>
 import FeutureList from "@/components/authentication/FeutureList.vue";
 import { RouterLink } from "vue-router";
+import axios from "axios";
+
+async function checkout(price) {
+  try {
+    const response = await axios.post(
+      "https://zullkit-backend.belajarkoding.com/api/checkout",
+      {
+        payment_total: price,
+        payment_status: "PENDING",
+      },
+      {
+        headers: {
+          Authorization:
+            localStorage.getItem("token_type") +
+            " " +
+            localStorage.getItem("access_token"),
+        },
+      }
+    );
+    window.location.href = response.data.data.payment_url;
+  } catch (error) {
+    console.log(error);
+  }
+}
 </script>
 
 <template>
@@ -71,12 +95,12 @@ import { RouterLink } from "vue-router";
                       Pre-built design screen
                     </li>
                   </ul>
-                  <RouterLink
-                    to="/success"
+                  <button
+                    @click="checkout(2000)"
                     class="inline-flex items-center justify-center w-full px-8 py-3 text-base font-medium text-black bg-gray-200 border border-transparent rounded-full hover:bg-gray-300 md:py-2 md:text-md md:px-10 hover:shadow"
                   >
                     Checkout Now
-                  </RouterLink>
+                  </button>
                 </div>
               </div>
               <div>
@@ -161,12 +185,12 @@ import { RouterLink } from "vue-router";
                       Unlock cloning app
                     </li>
                   </ul>
-                  <RouterLink
-                    to="/success"
+                  <button
+                    @click="checkout(9000)"
                     class="inline-flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-full hover:bg-indigo-700 md:py-2 md:text-md md:px-10 hover:shadow"
                   >
                     Checkout Now
-                  </RouterLink>
+                  </button>
                 </div>
               </div>
             </div>

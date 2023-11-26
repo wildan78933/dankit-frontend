@@ -1,22 +1,23 @@
 <script setup>
-import { RouterLink } from "vue-router";
+const props = defineProps({
+  user: Object,
+});
 </script>
 
 <template>
   <div class="flex items-center md:order-2">
-    <div class="mr-2 text-sm font-regular">Halo, Wildan</div>
+    <div class="mr-2 text-sm font-regular">Halo, {{ user.name }}</div>
     <button
       type="button"
       class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
       id="user-menu-button"
       aria-expanded="false"
       data-dropdown-toggle="dropdown"
-      @click="toggleDropdown"
     >
       <span class="sr-only">Open user menu</span>
       <img
         class="w-8 h-8 rounded-full"
-        src="https://ui-avatars.com/api/?name=Galih+Pratama&background=160442&color=fff"
+        :src="user.profile_photo_url"
         alt="user photo"
       />
     </button>
@@ -27,10 +28,12 @@ import { RouterLink } from "vue-router";
     id="dropdown"
   >
     <div class="px-4 py-3">
-      <span class="block text-sm text-gray-900 dark:text-white">Wildan</span>
+      <span class="block text-sm text-gray-900 dark:text-white">{{
+        user.name
+      }}</span>
       <span
         class="block text-sm text-gray-500 truncate font-regular dark:text-gray-400"
-        >wildan@gmail.com</span
+        >{{ user.email }}</span
       >
     </div>
     <ul class="py-1" aria-labelledby="dropdown">
@@ -50,7 +53,7 @@ import { RouterLink } from "vue-router";
       </li>
       <li>
         <a
-          href=""
+          href="#"
           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
           >Sign out</a
         >
