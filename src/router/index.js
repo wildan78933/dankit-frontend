@@ -58,6 +58,11 @@ const router = createRouter({
       component: SuccessView,
     },
 
+    {
+      path: "/*",
+      component: 404,
+    },
+
     // {
     //   path: '/about',
     //   name: 'about',
